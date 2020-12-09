@@ -1,28 +1,58 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="main">
+    <settings v-show="showSettings" />
+    <div v-show="!showSettings">
+      <div v-for="(city, index) in infoCities" :key="city.id">
+        <widget :city="city" :index="index" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
+import { mapActions, mapState } from "vuex";
+import Widget from "./components/Widget.vue";
+import Settings from "./components/Settings.vue";
 export default {
   name: "App",
   components: {
-    HelloWorld
+    Widget,
+    Settings
+  },
+  created() {
+    this.getCities();
+    if (this.cities.length === 0) {
+      this.$store.commit("setSettings", true);
+    }
+  },
+  computed: {
+    ...mapState(["infoCities", "showSettings", "cities"])
+  },
+  methods: {
+    ...mapActions(["getCities"])
   }
 };
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+}
+html,
+body {
+  height: 100%;
+  background: #ffffff;
+  font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #48484a;
+}
+.main {
+  position: absolute;
+  z-index: 10000;
 }
 </style>
