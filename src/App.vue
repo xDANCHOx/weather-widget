@@ -63,7 +63,6 @@ export default {
 html,
 body {
   height: 100%;
-  background: #ffffff;
   font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -71,6 +70,8 @@ body {
 }
 .main {
   position: absolute;
+  right: 0;
+  bottom: 0;
   z-index: 10000;
 }
 </style>

@@ -71,6 +71,7 @@ export default {
   width: 280px;
   padding: 16px;
   margin: 8px;
+  background: #ffffff;
   &__header {
     display: flex;
     justify-content: space-between;
