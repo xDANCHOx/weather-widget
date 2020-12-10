@@ -16,8 +16,11 @@ export default new Vuex.Store({
       state.infoCities.push(payload);
     },
     setCity(state, payload) {
-      state.cities.push(payload.toLowerCase());
-      localStorage.setItem("cities", JSON.stringify(state.cities));
+      payload = payload.toLowerCase();
+      if (!state.cities.includes(payload)) {
+        state.cities.push(payload);
+        localStorage.setItem("cities", JSON.stringify(state.cities));
+      } 
     },
     setMessage(state, payload) {
       state.message = payload.charAt(0).toUpperCase() + payload.slice(1);
@@ -54,6 +57,20 @@ export default new Vuex.Store({
             console.log(error);
           });
       }
+    },
+    async currentCity({commit}, position) {
+      await axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${position.lat}&lon=${position.lon}&units=metric&appid=${apiKey}`
+        )
+        .then(res => {
+          const data = res.data;
+          commit("getCities", data);
+          commit("setCity", data.name);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     async setCity({ commit }, city) {
       await axios

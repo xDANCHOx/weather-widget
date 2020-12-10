@@ -19,17 +19,35 @@ export default {
     Widget,
     Settings
   },
-  created() {
-    this.getCities();
+  async created() {
     if (this.cities.length === 0) {
-      this.$store.commit("setSettings", true);
+      this.getCurrentPosition();
+    } else {
+      this.getCities();
     }
   },
   computed: {
     ...mapState(["infoCities", "showSettings", "cities"])
   },
   methods: {
-    ...mapActions(["getCities"])
+    ...mapActions(["getCities", "currentCity"]),
+    getCurrentPosition() {
+      if(!("geolocation" in navigator)) {
+        console.warn('Geolocation is not available.');
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        this.currentCity({
+          lat: lat, 
+          lon: lon
+        })
+      }, err => {
+        console.warn(err.message);
+        this.$store.commit("setSettings", true);
+      })
+    }
   }
 };
 </script>
