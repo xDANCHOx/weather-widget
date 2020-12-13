@@ -7,6 +7,7 @@ module.exports = {
       libraryExport: 'default',
     }
   },
+  productionSourceMap: false,
   css: {
     extract: false,
   },

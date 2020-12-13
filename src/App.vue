@@ -13,8 +13,10 @@
 import { mapActions, mapState } from "vuex";
 import Widget from "./components/Widget.vue";
 import Settings from "./components/Settings.vue";
+import store from "./store";
 export default {
   name: "App",
+  store,
   components: {
     Widget,
     Settings
@@ -52,7 +54,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scope lang="scss">
 *,
 *:before,
 *:after {
